@@ -31,11 +31,12 @@ public class UserServiceImpl implements UserService{
   /**
   * 缓存数据(userId = 100)
   * key标识缓存前缀,不填写的话,默认取方法名称,如：userInfo
-  * 最终的缓存cacheKey = key + "-" + 所有方法参数列表
+  * expiry标识缓存过期时间(毫秒),-1标识永不过期
+  * 最终的缓存cacheKey = key + "-" + 所有方法参数列表
   * 如: userInfo-100 或者 user:info-100 将会被缓存
   */
   @Cacheable
-  @Cacheable(key = "user:info")
+  @Cacheable(key = "user:info",expiry = ExpiryTime.ONE_HOUR)
   public void userInfo(String userId){
       ...
   }
@@ -68,4 +69,27 @@ public class UserServiceImpl implements UserService{
   }
     
 }
+
+/**
+ * 单位(毫秒)
+ */
+public class ExpiryTime {
+    /**
+     * 永不过期
+     */
+    public static final long NEVER = -1;
+    /**
+     * 一分钟
+     */
+    public static final long ONE_MINUTE = 60 * 1000;
+    /**
+     * 一小时
+     */
+    public static final long ONE_HOUR = 60 * ONE_MINUTE;
+    /**
+     * 一天
+     */
+    public static final long ONE_DAY = 24 * ONE_HOUR;
+}
+
 ```
